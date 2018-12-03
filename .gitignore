@@ -3,3 +3,5 @@ node_modules/
 MNEMONIC.js
 
 build/
+
+package-lock.json
