@@ -1,16 +1,18 @@
-var Bi4LabToken = artifacts.require("./Bi4LabToken.sol");
+var EventToken = artifacts.require("./EventToken.sol");
 
 const tokenCode = "B4L";
 const tokenFullName = "Bi4Lab";
 const initialSupply = "100000";
 const decimals = "0";
+const expiryDate = Date.now() / 100 + 60 * 5;
 
 module.exports = function(deployer) {
   deployer.deploy(
-    Bi4LabToken,
+    EventToken,
     initialSupply,
     tokenFullName,
     tokenCode,
-    decimals
+    decimals,
+    expiryDate
   );
 };
