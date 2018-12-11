@@ -19,7 +19,7 @@ contract EventToken is ERC20, ERC20Detailed, ERC20Mintable, ERC20Burnable {
         string memory _name,
         string memory _symbol,
         uint8 _decimals,
-        uint256 _ticketExpiryDateTimestamp
+        uint256 _expireAfter
         )  
             ERC20Detailed(_name, _symbol, _decimals)
             ERC20Mintable()
@@ -28,7 +28,7 @@ contract EventToken is ERC20, ERC20Detailed, ERC20Mintable, ERC20Burnable {
             public
     {
         mint(msg.sender, _initialSupply);
-        ticketExpiryDateTimestamp = _ticketExpiryDateTimestamp;
+        ticketExpiryDateTimestamp = now + _expireAfter;
     }
 
     function totalSupply() public view returns(uint256) {
@@ -78,6 +78,4 @@ contract EventToken is ERC20, ERC20Detailed, ERC20Mintable, ERC20Burnable {
             return ERC20.transferFrom(from, to, value);
         }
     }
-
-
 }
