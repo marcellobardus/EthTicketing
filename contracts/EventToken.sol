@@ -78,4 +78,11 @@ contract EventToken is ERC20, ERC20Detailed, ERC20Mintable, ERC20Burnable {
             return ERC20.transferFrom(from, to, value);
         }
     }
+
+    function isTokenValid() public returns(bool) {
+        if(now >= ticketExpiryDateTimestamp) {
+            return false;
+        }
+        return true;
+    }
 }
