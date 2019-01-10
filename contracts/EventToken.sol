@@ -14,12 +14,21 @@ contract EventToken is ERC20, ERC20Detailed, ERC20Mintable, ERC20Burnable {
 
     uint256 ticketExpiryDateTimestamp;
 
+    uint256 ethEurRate;
+    uint256 ticketPrice;
+    uint256 maxTicketsSupply;
+    uint256 emitedTickets;
+
+    address owner;
+
     constructor(
-        uint256 _initialSupply,
+        uint256 _maxSupply,
         string memory _name,
         string memory _symbol,
         uint8 _decimals,
-        uint256 _expireAfter
+        uint256 _expireAfter,
+        uint256 _ethEuroRate,
+        uint256 _ticketPrice
         )  
             ERC20Detailed(_name, _symbol, _decimals)
             ERC20Mintable()
@@ -27,9 +36,28 @@ contract EventToken is ERC20, ERC20Detailed, ERC20Mintable, ERC20Burnable {
             ERC20()
             public
     {
-        mint(msg.sender, _initialSupply);
+        maxTicketsSupply = _maxSupply;
+        ethEurRate = _ethEuroRate;
+        ticketPrice = _ticketPrice;
         ticketExpiryDateTimestamp = now + _expireAfter;
+        owner = msg.sender;
     }
+
+    function() public payable {
+        require(now < ticketExpiryDateTimestamp, "This sale has been completed");
+        uint _ethTicketPrice = (ticketPrice / ethEurRate);
+        uint _ticketsNumber = msg.value / _ethTicketPrice;
+        require(_ticketsNumber == 0, "Only one ticket can be bown by a specific address");
+        uint _sub = msg.value%(_ethTicketPrice * 1 ether);
+        mint(msg.sender, _ticketsNumber);
+        msg.sender.transfer(_sub);
+    }
+
+    function withdraw() public {
+        require(msg.sender == owner);
+        msg.sender.send(this.balance);
+    }
+
 
     function totalSupply() public view returns(uint256) {
         if(now > ticketExpiryDateTimestamp) {
