@@ -14,7 +14,6 @@ contract EventToken is ERC20, ERC20Detailed, ERC20Mintable, ERC20Burnable {
 
     uint256 ticketExpiryDateTimestamp;
 
-    uint256 ethEurRate;
     uint256 ticketPrice;
     uint256 maxTicketsSupply;
     uint256 emitedTickets;
@@ -27,7 +26,6 @@ contract EventToken is ERC20, ERC20Detailed, ERC20Mintable, ERC20Burnable {
         string memory _symbol,
         uint8 _decimals,
         uint256 _expireAfter,
-        uint256 _ethEuroRate,
         uint256 _ticketPrice
         )  
             ERC20Detailed(_name, _symbol, _decimals)
@@ -37,7 +35,6 @@ contract EventToken is ERC20, ERC20Detailed, ERC20Mintable, ERC20Burnable {
             public
     {
         maxTicketsSupply = _maxSupply;
-        ethEurRate = _ethEuroRate;
         ticketPrice = _ticketPrice;
         ticketExpiryDateTimestamp = now + _expireAfter;
         owner = msg.sender;
@@ -45,17 +42,27 @@ contract EventToken is ERC20, ERC20Detailed, ERC20Mintable, ERC20Burnable {
 
     function() public payable {
         require(now < ticketExpiryDateTimestamp, "This sale has been completed");
-        uint _ethTicketPrice = (ticketPrice / ethEurRate);
-        uint _ticketsNumber = msg.value / _ethTicketPrice;
-        require(_ticketsNumber == 0, "Only one ticket can be bown by a specific address");
-        uint _sub = msg.value%(_ethTicketPrice * 1 ether);
-        mint(msg.sender, _ticketsNumber);
-        msg.sender.transfer(_sub);
+        require(emitedTickets < maxTicketsSupply, "Sold out");
+        uint _ticketsAmount = msg.value / ticketPrice;
+        require(_ticketsAmount < maxTicketsSupply, "You can't buy more tickets than the emitted number");
+        require(_ticketsAmount > 0, "You did not pay enough to buy any ticket");
+        transfer(msg.sender, msg.value - _ticketsAmount * ticketPrice);
+        mint(msg.sender, _ticketsAmount);
+        emitedTickets += _ticketsAmount;
+    }
+    
+    function getTickePrice() public view returns(uint) {
+        return ticketPrice;
     }
 
     function withdraw() public {
         require(msg.sender == owner);
         msg.sender.send(this.balance);
+    }
+    
+    function updatePrice(uint _newPrice) public {
+        require(msg.sender == owner, "Only contract owner can update tickets price");
+        ticketPrice = _newPrice;
     }
 
 
@@ -107,7 +114,7 @@ contract EventToken is ERC20, ERC20Detailed, ERC20Mintable, ERC20Burnable {
         }
     }
 
-    function isTokenValid() public returns(bool) {
+    function isTokenValid() public view returns(bool) {
         if(now >= ticketExpiryDateTimestamp) {
             return false;
         }

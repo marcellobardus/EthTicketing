@@ -2,26 +2,24 @@
 
 var EventToken = artifacts.require("./EventToken.sol");
 
-const tokenCode = "TCK";
-const tokenFullName = "TicketToken";
-const initialSupply = "100";
+const symbol = "TCK";
+const name = "TicketToken";
+const maxSupply = "100";
 const decimals = "0";
 const expireAfterSeconds = 60 * 60 * 24 * 5;
 
-const ticketTokenPrice = 800;
-const ethEurCent = 10000;
+const tokenWeiPrice = 1000000;
 
 module.exports = function(deployer) {
   //deployer.deploy(TicketSale, contractAddress, ticketTokenPrice, ethEurCent);
 
   deployer.deploy(
     EventToken,
-    initialSupply,
-    tokenFullName,
-    tokenCode,
+    maxSupply,
+    name,
+    symbol,
     decimals,
     expireAfterSeconds,
-    "100",
-    "10"
+    tokenWeiPrice
   );
 };
