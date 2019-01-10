@@ -61,5 +61,18 @@ module.exports = async wallet => {
     tokenWeiPrice
   );
 
-  console.log("Contract address", contract.address);
+  const configs = await JSON.parse(fs.readFileSync("./configs.json"));
+
+  const event = {
+    contractAddress: contract.address,
+    ticketPriceEth: tokenWeiPrice / Math.pow(10, 18),
+    expirationDate: answers.expirationDate,
+    supply: answers.maxSupply,
+    name: answers.eventName,
+    symbol: answers.symbol
+  };
+
+  configs.events.push(event);
+
+  fs.writeFileSync("./configs.json", JSON.stringify(configs));
 };

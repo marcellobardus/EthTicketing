@@ -3,6 +3,7 @@ const inquirer = require("inquirer");
 const fs = require("fs");
 
 const newEventHandler = require("./newEventHandler");
+const existingEventHandler = require("./existingEventHandler");
 
 const mainChoices = ["Start new event", "Manage existing"];
 
@@ -22,6 +23,8 @@ const main = async () => {
 
   if (answer.name === mainChoices[0]) {
     await newEventHandler(wallet);
+  } else {
+    await existingEventHandler(wallet);
   }
 };
 
