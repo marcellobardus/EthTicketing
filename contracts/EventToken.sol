@@ -56,7 +56,7 @@ contract EventToken is ERC20, ERC20Detailed, ERC20Mintable, ERC20Burnable {
 
     function withdraw() public {
         require(msg.sender == owner);
-        msg.sender.send(this.balance);
+        msg.sender.transfer(this.balance);
     }
     
     function updatePrice(uint _newPrice) public {
