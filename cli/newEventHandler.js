@@ -52,6 +52,14 @@ module.exports = async wallet => {
     Math.floor((answers.priceEur / ethEur) * Math.pow(10, 18))
   ).toFixed();
 
+  console.log({
+    name: answers.maxSupply,
+    symbol: answers.symbol,
+    supply: answers.maxSupply,
+    expireAfter,
+    price: tokenWeiPrice
+  });
+
   const contract = await factory.deploy(
     answers.maxSupply,
     answers.eventName,

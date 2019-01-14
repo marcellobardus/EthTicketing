@@ -1,22 +1,5 @@
 {
-  "privateKey": "0x0a62d720053110c9ece23ca0b1aef887dd8107e246e8ed646cadd8f86c5cff72",
+  "privateKey": "881aac6125889ac9f2e8da5c756ae949322d05d586e990c4027bce974a7e7014",
   "provider": "http://localhost:7545",
-  "events": [
-    {
-      "contractAddress": "0xB80516a48c3069A28Cd9Ec7951D42245b70f5C3f",
-      "ticketPriceEth": 0.9090909090909091,
-      "expirationDate": "2019-10-03",
-      "supply": "100",
-      "name": "DEMO",
-      "symbol": "DEM"
-    },
-    {
-      "contractAddress": "0x6eDb79C15d589ae5a3302F76fCC90e4B298315f5",
-      "ticketPriceEth": 9.090909090909092,
-      "expirationDate": "2019-04-19",
-      "supply": "100",
-      "name": "Demo",
-      "symbol": "DNA"
-    }
-  ]
+  "events": []
 }
