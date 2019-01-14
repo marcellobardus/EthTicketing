@@ -24,11 +24,10 @@ contract EventToken is ERC20, ERC20Detailed, ERC20Mintable, ERC20Burnable {
         uint256 _maxSupply,
         string memory _name,
         string memory _symbol,
-        uint8 _decimals,
         uint256 _expireAfter,
         uint256 _ticketPrice
         )  
-            ERC20Detailed(_name, _symbol, _decimals)
+            ERC20Detailed(_name, _symbol, 0)
             ERC20Mintable()
             ERC20Burnable()
             ERC20()
@@ -46,7 +45,7 @@ contract EventToken is ERC20, ERC20Detailed, ERC20Mintable, ERC20Burnable {
         uint _ticketsAmount = msg.value / ticketPrice;
         require(_ticketsAmount < maxTicketsSupply, "You can't buy more tickets than the emitted number");
         require(_ticketsAmount > 0, "You did not pay enough to buy any ticket");
-        transfer(msg.sender, msg.value - _ticketsAmount * ticketPrice);
+        msg.sender.transfer(msg.value - _ticketsAmount * ticketPrice);
         mint(msg.sender, _ticketsAmount);
         emitedTickets += _ticketsAmount;
     }

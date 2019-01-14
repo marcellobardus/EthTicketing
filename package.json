@@ -15,7 +15,7 @@
     "ethers": "^4.0.20",
     "inquirer": "^6.2.1",
     "openzeppelin-solidity": "^2.0.0",
-    "truffle-hdwallet-provider": "0.0.6",
+    "truffle-hdwallet-provider": "^1.0.2",
     "web3": "^1.0.0-beta.37"
   }
 }
