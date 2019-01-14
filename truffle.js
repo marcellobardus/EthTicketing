@@ -1,5 +1,4 @@
-const infuraApiKey =
-  "9defdc016d654060a6d372cbe5b2de0c9defdc016d654060a6d372cbe5b2de0c";
+const infuraApiKey = require("./INFURA");
 
 var HDWalletProvider = require("truffle-hdwallet-provider");
 const MNEMONIC = require("./MNEMONIC");
