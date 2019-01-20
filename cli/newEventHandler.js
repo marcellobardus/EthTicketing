@@ -53,7 +53,7 @@ module.exports = async wallet => {
   ).toFixed();
 
   console.log({
-    name: answers.maxSupply,
+    name: answers.name,
     symbol: answers.symbol,
     supply: answers.maxSupply,
     expireAfter,
@@ -64,7 +64,6 @@ module.exports = async wallet => {
     answers.maxSupply,
     answers.eventName,
     answers.symbol,
-    0,
     expireAfter,
     tokenWeiPrice
   );
