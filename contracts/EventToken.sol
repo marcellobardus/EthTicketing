@@ -1,4 +1,4 @@
-pragma solidity ^0.4.2;
+pragma solidity 0.5.0;
   
 import "../node_modules/openzeppelin-solidity/contracts/token/ERC20/ERC20.sol";  
 import "../node_modules/openzeppelin-solidity/contracts/token/ERC20/ERC20Detailed.sol";
@@ -18,7 +18,7 @@ contract EventToken is ERC20, ERC20Detailed, ERC20Mintable, ERC20Burnable {
     uint256 maxTicketsSupply;
     uint256 emitedTickets;
 
-    address owner;
+    address contractOwner;
 
     constructor(
         uint256 _maxSupply,
@@ -36,10 +36,10 @@ contract EventToken is ERC20, ERC20Detailed, ERC20Mintable, ERC20Burnable {
         maxTicketsSupply = _maxSupply;
         ticketPrice = _ticketPrice;
         ticketExpiryDateTimestamp = now + _expireAfter;
-        owner = msg.sender;
+        contractOwner = msg.sender;
     }
 
-    function() public payable {
+    function() external payable {
         require(now < ticketExpiryDateTimestamp, "This sale has been completed");
         require(emitedTickets < maxTicketsSupply, "Sold out");
         uint _ticketsAmount = msg.value / ticketPrice;
@@ -55,12 +55,12 @@ contract EventToken is ERC20, ERC20Detailed, ERC20Mintable, ERC20Burnable {
     }
 
     function withdraw() public {
-        require(msg.sender == owner);
-        msg.sender.transfer(this.balance);
+        require(msg.sender == contractOwner);
+        msg.sender.transfer(address(this).balance);
     }
     
     function updatePrice(uint _newPrice) public {
-        require(msg.sender == owner, "Only contract owner can update tickets price");
+        require(msg.sender == contractOwner, "Only contract owner can update tickets price");
         ticketPrice = _newPrice;
     }
 

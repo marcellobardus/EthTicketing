@@ -64,6 +64,7 @@ module.exports = async wallet => {
     console.log("Success txReceipt: ", txReceipt);
   } else {
     const txReceipt = await contract.withdraw();
+
     console.log("Success txReceipt: ", txReceipt);
   }
 };

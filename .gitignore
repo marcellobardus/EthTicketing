@@ -1,6 +1,11 @@
 node_modules/
 
+# Project super secret data
+
 MNEMONIC.js
+INFURA.js
+
+cli/configs.json
 
 build/
 

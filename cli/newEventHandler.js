@@ -53,7 +53,7 @@ module.exports = async wallet => {
   ).toFixed();
 
   console.log({
-    name: answers.name,
+    name: answers.eventName,
     symbol: answers.symbol,
     supply: answers.maxSupply,
     expireAfter,
@@ -67,6 +67,9 @@ module.exports = async wallet => {
     expireAfter,
     tokenWeiPrice
   );
+
+  console.log(contract.deployTransaction.hash);
+  await contract.deployed();
 
   const configs = await JSON.parse(fs.readFileSync("./configs.json"));
 
